@@ -1,4 +1,4 @@
-navbar-size {
+.navbar-size {
 width: 95%;
 margin: 0 auto;
 }
@@ -19,9 +19,24 @@ height: calc(100vh - 64px);
 }
 .materialboxed-image {
 margin: 0 auto;
-height: 400px;
+max-height: 350px;
+width: auto;
+max-width: 100%;
+object-fit: contain;
+}
+nav .brand-logo img {
+height: 50px;
+max-width: 120px;
+width: auto;
 }
 .click-me-button {
 background-color: #EE6E73;
 margin-top: 50px;
+}
+.card-reveal {
+color: black;
+}
+.card-reveal .card-title,
+.card-reveal p {
+color: black;
 }
