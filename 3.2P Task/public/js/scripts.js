@@ -1,15 +1,21 @@
 const cardList = [
 {
-title: "Kitten 2",
-image: "images/kitten3.jpg",
-link: "About Kitten 2",
-desciption: "Demo desciption about kitten 2"
+title: "Dubai",
+image: "images/dubai.jpg",
+link: "About Dubai",
+description: "Known for its modern architecture and luxury shopping"
 },
 {
-title: "Kitten 3",
-image: "images/kitten2.jpg",
-link: "About Kitten 3",
-desciption: "Demo desciption about kitten 3"
+title: "Melbourne",
+image: "images/melbourne.jpg",
+link: "About Melbourne",
+description: "Known for its vibrant culture and beautiful harbors"
+},
+{
+title: "New York",
+image: "images/nyc.jpg",
+link: "About New York",
+description: "Known for its bustling streets and iconic landmarks"
 }
 ]
 const clickMe = () => {
@@ -20,10 +26,11 @@ items.forEach(item => {
 let itemToAppend = '<div class="col s4 center-align">'+
 '<div class="card medium"><div class="card-image waves-effect waves-block waves-light"><img class="activator" src="'+item.image+'">'+
 '</div><div class="card-content">'+
-'<span class="card-title activator grey-text text-darken-4">'+item.title+'<i class="material-icons right">more_vert</i></span><p><a href="#">'+item.link+'</a></p></div>'+
+'<span class="card-title activator grey-text text-darken-4">'+item.title+'<i class="material-icons right">more_vert</i></span><p>'+item.description+'</p><p><a href="#">'+item.link+'</a></p></div>'+
 '<div class="card-reveal">'+
+
 '<span class="card-title grey-text text-darken-4">'+item.title+'<i class="material-icons right">close</i></span>'+
-'<p class="card-text">'+item.desciption+'</p>'+
+'<p class="card-text">'+item.description+'</p>'+
 '</div></div></div>';
 $("#card-section").append(itemToAppend)
 });
