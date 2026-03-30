@@ -1,0 +1,99 @@
+.navbar-size {
+width: 95%;
+margin: 0 auto;
+}
+nav .brand-logo {
+position: relative;
+display: flex;
+align-items: center;
+height: 100%;
+}
+nav .brand-logo img {
+display: block;
+height: 50px;
+}
+.main-body {
+background: radial-gradient(circle at top, #24325a, #18223b 60%, #101a2e);
+color: #edf3ff;
+min-height: calc(100vh - 64px);
+}
+.materialboxed-image {
+margin: 0 auto;
+max-height: 350px;
+width: auto;
+max-width: 100%;
+object-fit: contain;
+box-shadow: 0 0 25px rgba(100, 160, 240, 0.65);
+}
+body {
+background: linear-gradient(180deg, #2f426d 0%, #1d2f52 40%, #172548 100%);
+color: #f6faff;
+}
+
+
+nav .brand-logo img {
+height: 50px;
+max-width: 120px;
+width: auto;
+}
+.click-me-button {
+background-color: #3d5eff;
+box-shadow: 0 8px 20px rgba(149, 164, 236, 0.5);
+margin-top: 50px;
+}
+.card {
+background: rgba(10, 23, 48, 0.92);
+border: 1px solid rgba(180, 215, 255, 0.7);
+}
+.card-content,
+.card-reveal,
+.card-title,
+.card-title i,
+.card a {
+color: #ffffff;
+}
+.card-title {
+color: #ffffff;
+font-weight: 900;
+text-shadow: 0 0 14px rgba(0, 0, 0, 0.8);
+}.card-content .card-title,
+.card-content .card-title i {
+color: #ffffff;
+}
+.card-content p {
+color: #f0f7ff;
+}
+.card-reveal .card-title,
+.card-reveal p {
+color: #f3f8ff !important;
+}
+.card-reveal {
+background: rgba(9, 18, 39, 0.98) !important;
+}.card-content p,
+.card p {
+color: #e8f1ff;
+font-weight: 600;
+}
+.card-image img.activator {
+filter: brightness(1.12) contrast(1.05);
+}
+.card-image::after {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(180deg, rgba(2, 9, 22, 0.14), rgba(0, 0, 0, 0.40));
+}
+
+.card-reveal {
+background: rgba(14, 30, 55, 0.95) !important;
+color: #f7fbff;
+backdrop-filter: blur(4px);
+border: 1px solid rgba(190, 220, 255, 0.45);
+}
+.card-reveal .card-title,
+.card-reveal p {
+color: #ffffff;
+}
