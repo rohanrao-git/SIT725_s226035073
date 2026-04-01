@@ -1,0 +1,16 @@
+{
+  "name": "sit725-4.2p-skylines",
+  "version": "1.0.0",
+  "description": "Skylines viewer with MongoDB backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["express", "mongodb", "skylines"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^5.0.0"
+  }
+}

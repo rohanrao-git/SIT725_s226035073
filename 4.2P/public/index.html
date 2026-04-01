@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super Cars - MongoDB</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper navbar-size">
+      <a href="#!" class="brand-logo left">Super Cars</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a target="_blank" href="https://github.com/rohanrao-git/SIT725_s226035073">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-body">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center-align">
+          <h1>All of your Dream Cars, One Garage</h1>
+        </div>
+      </div>
+
+      <div class="row" id="card-section">
+      </div>
+    </div>
+  </main>
+
+  <div id="car-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div class="row modal-row">
+        <div class="col s12 m6">
+          <img id="modal-car-image" class="responsive-img modal-car-image" src="" alt="Selected car">
+        </div>
+        <div class="col s12 m6">
+          <span id="modal-car-chip" class="chip car-chip"></span>
+          <h4 id="modal-car-name"></h4>
+          <p id="modal-car-description" class="modal-car-description"></p>
+          <div class="car-spec-list">
+            <p><strong>Brand:</strong> <span id="modal-car-brand"></span></p>
+            <p><strong>Year:</strong> <span id="modal-car-year"></span></p>
+            <p><strong>Top Speed:</strong> <span id="modal-car-speed"></span></p>
+            <p><strong>Price:</strong> <span id="modal-car-price"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-light btn">Close</a>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="js/scripts.js"></script>
+</body>
+</html>
