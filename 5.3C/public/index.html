@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Catalogue</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f6f8;
+        color: #1f2937;
+      }
+
+      .page {
+        max-width: 900px;
+        margin: 40px auto;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 24px;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      .load-btn {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        background: #0f766e;
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .content {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .panel {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
+        min-height: 220px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+
+      .book-link {
+        background: none;
+        border: none;
+        color: #0f766e;
+        cursor: pointer;
+        text-align: left;
+        padding: 0;
+      }
+
+      @media (max-width: 700px) {
+        .content {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>Books Catalogue developed by s226035073</h1>
+      <p>Click the button below to get all the book items</p>
+      <button class="load-btn" id="loadBooksBtn">Load Books</button>
+
+      <div class="content">
+        <div class="panel">
+          <h2>Books</h2>
+          <ul id="booksList"></ul>
+        </div>
+        <div class="panel">
+          <h2>Selected Book Details</h2>
+          <div id="bookDetails">Click a book to view details.</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const loadBooksBtn = document.getElementById('loadBooksBtn');
+      const booksList = document.getElementById('booksList');
+      const bookDetails = document.getElementById('bookDetails');
+
+      async function loadBooks() {
+        const response = await fetch('/api/books');
+        const result = await response.json();
+        const books = result.data || [];
+
+        booksList.innerHTML = '';
+        bookDetails.textContent = 'Click a book to view details.';
+
+        books.forEach((book) => {
+          const listItem = document.createElement('li');
+          const button = document.createElement('button');
+          button.className = 'book-link';
+          button.textContent = `${book.title} - ${book.author}`;
+          button.addEventListener('click', () => loadBookById(book.id));
+          listItem.appendChild(button);
+          booksList.appendChild(listItem);
+        });
+      }
+
+      async function loadBookById(id) {
+        const response = await fetch(`/api/books/${id}`);
+        const result = await response.json();
+        const book = result.data;
+
+        if (!book) {
+          bookDetails.textContent = 'Book not found.';
+          return;
+        }
+
+        bookDetails.innerHTML = `
+          <p><strong>ID:</strong> ${book.id}</p>
+          <p><strong>Title:</strong> ${book.title}</p>
+          <p><strong>Author:</strong> ${book.author}</p>
+          <p><strong>Year:</strong> ${book.year}</p>
+          <p><strong>Genre:</strong> ${book.genre}</p>
+          <p><strong>Price (AUD):</strong> ${book.price}</p>
+          <p><strong>Summary:</strong> ${book.summary}</p>
+        `;
+      }
+
+      loadBooksBtn.addEventListener('click', loadBooks);
+    </script>
+  </body>
+</html>
