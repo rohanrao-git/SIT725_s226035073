@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Catalog</title>
+  </head>
+  <body>
+    <h1>Books Catalog</h1>
+    <ul id="books-list"></ul>
+
+    <script>
+      async function loadBooks() {
+        const response = await fetch("/api/books");
+        const result = await response.json();
+        const books = result.data || [];
+
+        const list = document.getElementById("books-list");
+        list.innerHTML = "";
+
+        books.forEach((book) => {
+          const item = document.createElement("li");
+          item.textContent = `${book.title} - ${book.author}`;
+          list.appendChild(item);
+        });
+      }
+
+      loadBooks();
+    </script>
+  </body>
+</html>
