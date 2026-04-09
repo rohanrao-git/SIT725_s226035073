@@ -42,7 +42,3 @@ exports.getBookById = async (req, res) => {
     });
   }
 };
-
-exports.integrityCheck42 = (req, res) => {
-  res.status(204).send();
-};
