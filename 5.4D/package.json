@@ -1,0 +1,17 @@
+{
+  "name": "5.4d",
+  "version": "1.0.0",
+  "description": "SIT725 5.4D - Books catalogue with safe writes",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^8.18.0"
+  }
+}

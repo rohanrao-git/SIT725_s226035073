@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books Catalogue</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f6f8;
+        color: #1f2937;
+      }
+
+      .page {
+        max-width: 1100px;
+        margin: 40px auto;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 24px;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      .load-btn,
+      .action-btn {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        background: #0f766e;
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .secondary-btn {
+        background: #475569;
+      }
+
+      .content {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .writes {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .panel {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
+        min-height: 220px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+
+      .book-link {
+        background: none;
+        border: none;
+        color: #0f766e;
+        cursor: pointer;
+        text-align: left;
+        padding: 0;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        font-size: 13px;
+        color: #334155;
+      }
+
+      input,
+      textarea {
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        padding: 8px;
+        font-size: 14px;
+      }
+
+      textarea {
+        min-height: 76px;
+        resize: vertical;
+      }
+
+      .actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .response {
+        margin-top: 14px;
+        background: #0b1220;
+        color: #dbeafe;
+        border-radius: 8px;
+        padding: 12px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        min-height: 90px;
+        white-space: pre-wrap;
+      }
+
+      @media (max-width: 900px) {
+        .content,
+        .writes,
+        .field-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>Books Catalogue developed by s226035073</h1>
+      <p>Use this page to test GET, POST, and PUT API calls.</p>
+      <button class="load-btn" id="loadBooksBtn">Load Books</button>
+
+      <div class="content">
+        <div class="panel">
+          <h2>Books</h2>
+          <ul id="booksList"></ul>
+        </div>
+        <div class="panel">
+          <h2>Selected Book Details</h2>
+          <div id="bookDetails">Click a book to view details.</div>
+        </div>
+      </div>
+
+      <div class="writes">
+        <div class="panel">
+          <h2>Create Book (POST /api/books)</h2>
+          <form id="createForm" class="field-grid">
+            <div class="field"><label for="create-id">id</label><input id="create-id" required /></div>
+            <div class="field"><label for="create-title">title</label><input id="create-title" required /></div>
+            <div class="field"><label for="create-author">author</label><input id="create-author" required /></div>
+            <div class="field"><label for="create-year">year</label><input id="create-year" type="number" required /></div>
+            <div class="field"><label for="create-genre">genre</label><input id="create-genre" required /></div>
+            <div class="field"><label for="create-price">price (AUD)</label><input id="create-price" type="number" step="0.01" min="0" required /></div>
+            <div class="field full"><label for="create-summary">summary</label><textarea id="create-summary" required></textarea></div>
+            <div class="actions full">
+              <button class="action-btn" type="submit" id="createSubmit">Create</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Update Book (PUT /api/books/:id)</h2>
+          <form id="updateForm" class="field-grid">
+            <div class="field full"><label for="update-target-id">Target id (URL)</label><input id="update-target-id" required /></div>
+            <div class="field"><label for="update-title">title</label><input id="update-title" /></div>
+            <div class="field"><label for="update-author">author</label><input id="update-author" /></div>
+            <div class="field"><label for="update-year">year</label><input id="update-year" type="number" /></div>
+            <div class="field"><label for="update-genre">genre</label><input id="update-genre" /></div>
+            <div class="field"><label for="update-price">price (AUD)</label><input id="update-price" type="number" step="0.01" min="0" /></div>
+            <div class="field full"><label for="update-summary">summary</label><textarea id="update-summary"></textarea></div>
+            <div class="actions full">
+              <button class="action-btn" type="submit" id="updateSubmit">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="response" id="apiResponse">API responses will appear here.</div>
+    </div>
+
+    <script>
+      const loadBooksBtn = document.getElementById('loadBooksBtn');
+      const booksList = document.getElementById('booksList');
+      const bookDetails = document.getElementById('bookDetails');
+      const apiResponse = document.getElementById('apiResponse');
+
+      const createForm = document.getElementById('createForm');
+      const updateForm = document.getElementById('updateForm');
+      const createSubmit = document.getElementById('createSubmit');
+      const updateSubmit = document.getElementById('updateSubmit');
+
+      let selectedBook = null;
+
+      function setBusy(isBusy) {
+        createSubmit.disabled = isBusy;
+        updateSubmit.disabled = isBusy;
+        loadBooksBtn.disabled = isBusy;
+      }
+
+      function showResponse(status, payload) {
+        apiResponse.textContent = `HTTP ${status}\n${JSON.stringify(payload, null, 2)}`;
+      }
+
+      async function parseJsonSafe(response) {
+        const text = await response.text();
+        if (!text) return null;
+        try {
+          return JSON.parse(text);
+        } catch (_err) {
+          return { raw: text };
+        }
+      }
+
+      function getInputValue(id) {
+        return document.getElementById(id).value.trim();
+      }
+
+      function maybeSetField(obj, key, value, asNumber = false) {
+        if (!value) return;
+        obj[key] = asNumber ? Number(value) : value;
+      }
+
+      async function loadBooks() {
+        setBusy(true);
+        try {
+          const response = await fetch('/api/books');
+          const result = await parseJsonSafe(response);
+          const books = result?.data || [];
+
+          booksList.innerHTML = '';
+          bookDetails.textContent = 'Click a book to view details.';
+
+          books.forEach((book) => {
+            const listItem = document.createElement('li');
+            const button = document.createElement('button');
+            button.className = 'book-link';
+            button.textContent = `${book.title} - ${book.author}`;
+            button.addEventListener('click', () => loadBookById(book.id));
+            listItem.appendChild(button);
+            booksList.appendChild(listItem);
+          });
+
+          showResponse(response.status, result || { message: 'No content' });
+        } catch (err) {
+          showResponse(0, { message: 'Request failed', error: err.message });
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      async function loadBookById(id) {
+        setBusy(true);
+        try {
+          const response = await fetch(`/api/books/${id}`);
+          const result = await parseJsonSafe(response);
+          const book = result?.data;
+
+          if (!book) {
+            bookDetails.textContent = 'Book not found.';
+            showResponse(response.status, result || { message: 'Book not found' });
+            return;
+          }
+
+          selectedBook = book;
+          document.getElementById('update-target-id').value = book.id;
+
+          bookDetails.innerHTML = `
+            <p><strong>ID:</strong> ${book.id}</p>
+            <p><strong>Title:</strong> ${book.title}</p>
+            <p><strong>Author:</strong> ${book.author}</p>
+            <p><strong>Year:</strong> ${book.year}</p>
+            <p><strong>Genre:</strong> ${book.genre}</p>
+            <p><strong>Price (AUD):</strong> ${book.price}</p>
+            <p><strong>Summary:</strong> ${book.summary}</p>
+          `;
+
+          showResponse(response.status, result);
+        } catch (err) {
+          showResponse(0, { message: 'Request failed', error: err.message });
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      createForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const payload = {
+          id: getInputValue('create-id'),
+          title: getInputValue('create-title'),
+          author: getInputValue('create-author'),
+          year: Number(getInputValue('create-year')),
+          genre: getInputValue('create-genre'),
+          summary: getInputValue('create-summary'),
+          price: getInputValue('create-price')
+        };
+
+        setBusy(true);
+        try {
+          const response = await fetch('/api/books', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const result = await parseJsonSafe(response);
+          showResponse(response.status, result || { message: 'No content' });
+          if (response.ok) {
+            createForm.reset();
+            await loadBooks();
+          }
+        } catch (err) {
+          showResponse(0, { message: 'Request failed', error: err.message });
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      updateForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const targetId = getInputValue('update-target-id');
+        const payload = {};
+
+        maybeSetField(payload, 'title', getInputValue('update-title'));
+        maybeSetField(payload, 'author', getInputValue('update-author'));
+        maybeSetField(payload, 'year', getInputValue('update-year'), true);
+        maybeSetField(payload, 'genre', getInputValue('update-genre'));
+        maybeSetField(payload, 'summary', getInputValue('update-summary'));
+        maybeSetField(payload, 'price', getInputValue('update-price'));
+
+        setBusy(true);
+        try {
+          const response = await fetch(`/api/books/${targetId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const result = await parseJsonSafe(response);
+          showResponse(response.status, result || { message: 'No content' });
+          if (response.ok) {
+            updateForm.reset();
+            if (targetId) document.getElementById('update-target-id').value = targetId;
+            await loadBooks();
+            await loadBookById(targetId);
+          }
+        } catch (err) {
+          showResponse(0, { message: 'Request failed', error: err.message });
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      loadBooksBtn.addEventListener('click', loadBooks);
+    </script>
+  </body>
+</html>
